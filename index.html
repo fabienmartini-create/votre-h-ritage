@@ -5,115 +5,193 @@
 <title>Notre Héritage</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
-:root{--bg:#f6efe0;--card:#fffaf0;--ink:#3b3426;--sage:#7d8f69;--olive:#5b6b3a;--gold:#b8923a;--line:#e3d7bc;--sh:0 4px 14px rgba(70,55,20,.12);color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root{--bg:#26241c;--card:#33301f;--ink:#f1e8d2;--sage:#9bad84;--olive:#a9bb7c;--gold:#d9b35e;--line:#4a4630;--sh:0 4px 14px rgba(0,0,0,.4);color-scheme:dark}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.45 Georgia,"Times New Roman",serif}
-h1,h2{font-weight:normal;margin:.3em 0}h1{font-size:1.9rem}h2{font-size:1.4rem;color:var(--olive)}
-main{max-width:720px;margin:0 auto;padding:16px 16px 110px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh);padding:16px;margin:12px 0}
-.hero{text-align:center;padding:22px 10px 6px}.hero small{color:var(--gold);letter-spacing:.15em;text-transform:uppercase;font-size:.7rem}
-.big{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;min-height:84px}
-.big .e{font-size:2.2rem}.big b{display:block;font-size:1.3rem}.big .s{color:var(--sage);font-size:.9rem}
+:root{--bg:#f6efe0;--card:#fffaf0;--ink:#3b3426;--sage:#7d8f69;--olive:#5b6b3a;--gold:#b8923a;--line:#e3d7bc;--sh:0 3px 12px rgba(70,55,20,.12);color-scheme:light;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#26241c;--card:#33301f;--ink:#f1e8d2;--sage:#9bad84;--olive:#a9bb7c;--gold:#d9b35e;--line:#4a4630;--sh:0 3px 12px rgba(0,0,0,.4);color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.4 Georgia,"Times New Roman",serif}
+h1,h2,h3{font-weight:normal;margin:.3em 0}h1{font-size:1.7rem}h2{font-size:1.25rem;color:var(--olive)}
+main{max-width:720px;margin:0 auto;padding:12px 14px calc(150px + env(safe-area-inset-bottom,0px))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh);padding:14px;margin:10px 0}
+.hero{text-align:center;padding:10px 6px 2px}.hero small{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.68rem}
+.sp{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:0;overflow:hidden;min-height:68px}
+.sp .th{width:68px;height:68px;flex:none;background:var(--line) center/cover;display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.sp b{display:block;font-size:1.1rem}.sp .s{color:var(--sage);font-size:.85rem}
+.cover{height:150px;border-radius:18px;background:var(--line) center/cover;position:relative;margin-top:8px}
+.av{width:84px;height:84px;border-radius:50%;border:3px solid var(--card);background:var(--line) center/cover;margin:-42px auto 0;position:relative;display:flex;align-items:center;justify-content:center;font-size:2rem}
 button,select,input,textarea{font:inherit;color:inherit}
-.btn{background:var(--olive);color:#fff;border:0;border-radius:16px;padding:14px 20px;min-height:52px;cursor:pointer;font-size:1.05rem}
-.btn.alt{background:transparent;color:var(--olive);border:2px solid var(--sage)}.btn.sm{min-height:40px;padding:8px 14px;font-size:.9rem}
-.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));box-shadow:var(--sh);background:var(--gold);color:#2b2208;border:0;border-radius:30px;padding:16px 26px;font-size:1.1rem;cursor:pointer;z-index:5}
-input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin:6px 0 12px}
-label{font-size:.85rem;color:var(--sage);display:block}.chk label{display:inline-flex;gap:6px;align-items:center;font-size:1rem;color:var(--ink);margin-right:14px}.chk input{width:auto;margin:0}
-.m img{width:100%;max-height:360px;object-fit:cover;border-radius:14px;display:block;margin:8px 0}
-.tag{display:inline-block;background:var(--line);border-radius:10px;padding:2px 9px;font-size:.78rem;margin:2px 3px 0 0}
-.year{color:var(--gold);border-bottom:1px solid var(--line);margin:22px 0 8px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.note{font-size:.85rem;color:var(--sage)}.err{color:#b3402a;font-size:.9rem}
-</style></head><body><main id="app"><p class="note">Chargement…</p></main>
+.btn{background:var(--olive);color:#fff;border:0;border-radius:14px;padding:12px 18px;min-height:48px;cursor:pointer}
+.btn.alt{background:transparent;color:var(--olive);border:2px solid var(--sage)}.btn.sm{min-height:38px;padding:6px 12px;font-size:.88rem}.btn.gold{background:var(--gold);color:#2b2208}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:6;padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav button{flex:1;background:none;border:0;padding:8px 2px 6px;font-size:.68rem;color:var(--sage);cursor:pointer}.nav button i{display:block;font-style:normal;font-size:1.35rem}.nav button.on{color:var(--olive);font-weight:bold}
+.fab{position:fixed;right:14px;bottom:calc(70px + env(safe-area-inset-bottom,0px));background:var(--gold);color:#2b2208;border:0;border-radius:26px;padding:12px 18px;font-size:.95rem;box-shadow:var(--sh);cursor:pointer;z-index:5}
+input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px;margin:5px 0 11px}
+label{font-size:.82rem;color:var(--sage);display:block}.chk label{display:inline-flex;gap:6px;align-items:center;font-size:1rem;color:var(--ink);margin-right:12px}.chk input{width:auto;margin:0}
+.m img,.m video{width:100%;max-height:340px;object-fit:cover;border-radius:12px;display:block;margin:8px 0}
+.tag{display:inline-block;background:var(--line);border-radius:10px;padding:2px 9px;font-size:.76rem;margin:2px 3px 0 0}
+.year{color:var(--gold);border-bottom:1px solid var(--line);margin:18px 0 6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.note{font-size:.84rem;color:var(--sage)}.err{color:#b3402a;font-size:.9rem}.half{flex:1;min-width:120px}
+.mic{width:100%;font-size:1.15rem;min-height:60px;border-radius:18px}
+</style></head><body><main id="app"><p class="note">Chargement…</p></main><div id="nv"></div>
 <script>
 const sb=supabase.createClient("https://uaoekuspuxcvhugdgetu.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhb2VrdXNwdXhjdmh1Z2RnZXR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzMjU0NjAsImV4cCI6MjEwNzkwMTQ2MH0.O8uYa8KRfK0c2HtekQwC_1iXCEuwjzhmmP-za4XPdFc");
 const $=s=>document.querySelector(s),app=$("#app");
-const ALB={romeo:{n:"Romeo",e:"💙",d:"Son espace personnel"},angelo:{n:"Angelo",e:"🧸",d:"Son espace personnel"},duo:{n:"Romeo & Angelo",e:"👬",d:"Aventures, vacances, complicité"}};
-let me=null,mem=[],U={};
+const ALB={romeo:{n:"Romeo",e:"💙"},angelo:{n:"Angelo",e:"🧸"},duo:{n:"Romeo & Angelo",e:"👬"}};
 const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const fmt=d=>new Date(d+"T12:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
-const isAdmin=()=>me&&me.role==="admin";
+const fmt=d=>d?new Date(d+"T12:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}):"";
+let me=null,mem=[],SP={},PR=[],Q=[],AN=[],U={},cur=()=>home(),tab="home",F={y:"",t:"all"},rec=null,audio=null;
+const isAdmin=()=>me&&me.role==="admin",isGP=()=>me&&me.role==="grandparent";
+const bg=p=>p&&U[p]?`style="background-image:url('${U[p]}')"`:"";
 
 async function boot(){const{data:{session}}=await sb.auth.getSession();if(!session)return loginView();
  const{data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
  if(error||!data){await sb.auth.signOut();return loginView("Compte non autorisé.")}
  me=data;await load();home()}
-async function load(){const{data,error}=await sb.from("memories").select("*, media(*), profiles(name)").order("happened_on",{ascending:false});
- if(error){app.innerHTML=`<p class="err">Erreur de chargement : ${esc(error.message)}</p>`;return}
- mem=data;const paths=mem.flatMap(m=>m.media.map(x=>x.path));U={};
- if(paths.length){const{data:s}=await sb.storage.from("media").createSignedUrls(paths,3600);(s||[]).forEach(x=>{if(x.signedUrl)U[x.path]=x.signedUrl})}}
+async function load(){
+ const r=await Promise.all([sb.from("memories").select("*, media(*), profiles(name)").order("happened_on",{ascending:false}),sb.from("spaces").select("*"),sb.from("profiles").select("*"),sb.from("interview_questions").select("*").order("position"),sb.from("interview_answers").select("*")]);
+ if(r[0].error){app.innerHTML=`<p class="err">Erreur de chargement : ${esc(r[0].error.message)}</p>`;return}
+ mem=r[0].data;SP=Object.fromEntries((r[1].data||[]).map(s=>[s.slug,s]));PR=r[2].data||[];Q=r[3].data||[];AN=r[4].data||[];
+ const paths=[...mem.flatMap(m=>m.media.map(x=>x.path)),...Object.values(SP).flatMap(s=>[s.avatar_path,s.cover_path]),...PR.flatMap(p=>[p.avatar_path,p.cover_path]),...AN.map(a=>a.media_path)].filter(Boolean);
+ U={};if(paths.length){const{data:s}=await sb.storage.from("media").createSignedUrls([...new Set(paths)],3600);(s||[]).forEach(x=>{if(x.signedUrl)U[x.path]=x.signedUrl})}}
 
-function loginView(msg){app.innerHTML=`<div class="hero"><small>Patrimoine familial privé</small><h1>🏡 Notre Héritage</h1></div><div class="card">
+function loginView(msg){$("#nv").innerHTML="";app.innerHTML=`<div class="hero"><small>Patrimoine familial privé</small><h1>🏡 Notre Héritage</h1></div><div class="card">
  <label>Adresse e-mail</label><input id="em" type="email" autocomplete="email"><label>Mot de passe (8 caractères minimum)</label><input id="pw" type="password" autocomplete="current-password">
- <div class="row"><button class="btn" id="in">Se connecter</button><button class="btn alt" id="up">Créer mon compte</button></div>
- <p class="err" id="msg">${esc(msg||"")}</p><p class="note">Seules les personnes invitées par Fabio et Daphné peuvent créer un compte, avec l’adresse e-mail invitée.</p></div>`;
+ <div class="row"><button class="btn" id="in">Se connecter</button><button class="btn alt" id="up">Créer mon compte</button></div><p class="err" id="msg">${esc(msg||"")}</p>
+ <p class="note">Seules les personnes invitées par Fabio et Daphné peuvent créer un compte, avec l’adresse e-mail invitée.</p></div>`;
  const cred=()=>({email:$("#em").value.trim(),password:$("#pw").value});
  $("#in").onclick=async()=>{const{error}=await sb.auth.signInWithPassword(cred());if(error)$("#msg").textContent="Connexion impossible : e-mail ou mot de passe incorrect.";else boot()};
  $("#up").onclick=async()=>{const c=cred();if(c.password.length<8){$("#msg").textContent="Mot de passe : 8 caractères minimum.";return}
-  const{data,error}=await sb.auth.signUp(c);
-  if(error){$("#msg").textContent=/database error|invitation/i.test(error.message)?"Cette adresse n’a pas été invitée.":error.message;return}
+  const{data,error}=await sb.auth.signUp(c);if(error){$("#msg").textContent=/database error|invitation/i.test(error.message)?"Cette adresse n’a pas été invitée.":error.message;return}
   if(!data.session){$("#msg").textContent="Compte créé. Confirmez votre e-mail puis connectez-vous.";return}boot()}}
 async function logout(){await sb.auth.signOut();me=null;loginView()}
 
-function bar(back){return `<div class="row" style="justify-content:space-between"><span>${back?`<button class="btn alt sm" onclick="home()">← Accueil</button>`:`<span class="note">Bonjour ${esc(me.name)} 👋</span>`}</span><button class="btn alt sm" onclick="logout()">Quitter</button></div>`}
-const fab=()=>`<button class="fab" onclick="addForm()">＋ Ajouter un souvenir</button>`;
-const pub=()=>mem.filter(m=>m.status==="published");
-function cardHtml(m){const med=m.media.map(x=>{const u=U[x.path];if(!u)return"";return x.kind==="photo"?`<img src="${u}" alt="" loading="lazy">`:x.kind==="audio"?`<audio controls src="${u}" style="width:100%"></audio>`:""}).join("");
- const mine=m.author===me.id,pend=m.status==="pending";
- return `<div class="card m"><b>${esc(m.title)||"Sans titre"}</b>${pend?` <span class="tag">⏳ en attente</span>`:""}<div class="note">${fmt(m.happened_on)}${m.place?" · 📍"+esc(m.place):""} · par ${esc(m.profiles&&m.profiles.name)}</div>${med}${m.body?`<p>${esc(m.body).replace(/\n/g,"<br>")}</p>`:""}
+/* ---------- structure ---------- */
+function shell(html,fab){const T=[["home","🏠","Accueil"],["souv","📸","Souvenirs"],["fam","🌳","Famille"],["caps","💌","Capsules"],["menu","⚙️","Menu"]];
+ app.innerHTML=html;$("#nv").innerHTML=`<div class="nav">${T.map(t=>`<button class="${tab===t[0]?"on":""}" onclick="go('${t[0]}')"><i>${t[1]}</i>${t[2]}</button>`).join("")}</div>`+(fab?`<button class="fab" onclick="addForm(${fab})">＋ Ajouter</button>`:"");window.scrollTo(0,0)}
+function go(t){tab=t;F={y:"",t:"all"};({home,souv:()=>souv(""),fam,caps,menu})[t]()}
+const back=(l,f)=>`<button class="btn alt sm" onclick="${f||"cur()"}">← ${l||"Retour"}</button>`;
+function age(d){if(!d)return"";const b=new Date(d),n=new Date();let m=(n.getFullYear()-b.getFullYear())*12+n.getMonth()-b.getMonth();if(n.getDate()<b.getDate())m--;const y=Math.floor(m/12),r=m%12;return y>0?`${y} an${y>1?"s":""}${r?" "+r+" mois":""}`:`${m} mois`}
+function mediaHtml(m){return m.media.map(x=>{const u=U[x.path];if(!u)return"";return x.kind==="photo"?`<img src="${u}" alt="" loading="lazy">`:x.kind==="audio"?`<audio controls src="${u}" style="width:100%;margin:6px 0"></audio>`:x.kind==="video"?`<video controls playsinline src="${u}"></video>`:`<a href="${u}" target="_blank" rel="noopener">📄 Ouvrir le document</a>`}).join("")}
+function cardHtml(m){const mine=m.author===me.id,pend=m.status==="pending",sp=m.space!=="albums"&&m.space!=="personal"?"":"";
+ return `<div class="card m"><b>${esc(m.title)||"Sans titre"}</b>${pend?` <span class="tag">⏳ en attente</span>`:""}${isAdmin()&&m.space==="albums"?`<span class="tag">${m.visibility==="family"?"👪 famille":"🔒 privé"}</span>`:""}
+ <div class="note">${fmt(m.happened_on)}${m.place?" · 📍"+esc(m.place):""} · par ${esc(m.profiles&&m.profiles.name)}</div>${mediaHtml(m)}${m.body?`<p>${esc(m.body).replace(/\n/g,"<br>")}</p>`:""}
  <div>${m.albums.map(a=>`<span class="tag">${ALB[a].e} ${ALB[a].n}</span>`).join("")}${(m.tags||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>
- <div class="row" style="margin-top:10px">${isAdmin()&&pend?`<button class="btn sm" onclick="approve('${m.id}')">✅ Publier</button>`:""}${isAdmin()||(mine&&pend)?`<button class="btn alt sm" onclick="rm('${m.id}')">${isAdmin()&&pend?"Refuser":"Supprimer"}</button>`:""}</div></div>`}
+ <div class="row" style="margin-top:8px">${isAdmin()&&pend?`<button class="btn sm" onclick="approve('${m.id}')">✅ Publier</button>`:""}${isAdmin()||(mine&&(pend||m.space==="personal"))?`<button class="btn alt sm" onclick="rm('${m.id}')">${isAdmin()&&pend?"Refuser":"Supprimer"}</button>`:""}</div></div>`}
+const albumsList=()=>mem.filter(m=>m.space==="albums"&&m.status==="published");
+function timeline(l){const f=l.filter(m=>(!F.y||m.happened_on.startsWith(F.y))&&(F.t==="all"||(F.t==="text"?!m.media.length:m.media.some(x=>x.kind===F.t))));let y="";
+ return f.length?f.map(m=>{const Y=m.happened_on.slice(0,4),h=Y!==y?`<h2 class="year">${Y}</h2>`:"";y=Y;return h+cardHtml(m)}).join(""):`<div class="card"><p class="note">Aucun souvenir pour ce filtre.</p></div>`}
+function filters(from){const ys=[];for(let y=new Date().getFullYear();y>=from;y--)ys.push(y);
+ return `<div class="row"><select class="half" onchange="F.y=this.value;cur()"><option value="">Toutes les années</option>${ys.map(y=>`<option ${F.y==y?"selected":""}>${y}</option>`).join("")}</select>
+ <select class="half" onchange="F.t=this.value;cur()">${[["all","Tous"],["photo","📷 Photos"],["video","🎬 Vidéos"],["audio","🎙️ Vocaux"],["text","📝 Textes"]].map(t=>`<option value="${t[0]}" ${F.t===t[0]?"selected":""}>${t[1]}</option>`).join("")}</select></div>`}
 
-function home(){const t=new Date(),md=String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0"),P=pub();
- let j=P.find(m=>m.happened_on.slice(5)===md&&+m.happened_on.slice(0,4)<t.getFullYear()),lab="Ce jour-là";
- if(!j&&P.length){j=P[Math.floor(Math.random()*P.length)];lab="Un souvenir au hasard"}
- const pend=mem.filter(m=>m.status==="pending"),mine=pend.filter(m=>m.author===me.id);
- app.innerHTML=bar(0)+`<div class="hero"><small>Patrimoine familial privé</small><h1>🏡 Notre Héritage</h1></div>
+/* ---------- accueil ---------- */
+function spCard(k){const s=SP[k]||{name:ALB[k].n},a=ALB[k],n=albumsList().filter(m=>m.albums.includes(k)).length;
+ return `<button class="card sp" onclick="spaceView('${k}')"><span class="th" ${bg(s.avatar_path||s.cover_path)}>${U[s.avatar_path||s.cover_path]?"":a.e}</span><span><b>${a.e} ${esc(s.name||a.n)}</b><span class="s">${s.birth_date?age(s.birth_date)+" · ":""}${n} souvenir${n>1?"s":""}</span></span></button>`}
+function home(){cur=home;tab="home";const t=new Date(),md=String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0"),P=albumsList();
+ let j=P.find(m=>m.happened_on.slice(5)===md&&+m.happened_on.slice(0,4)<t.getFullYear()),lab="Ce jour-là";if(!j&&P.length){j=P[Math.floor(Math.random()*P.length)];lab="Un souvenir au hasard"}
+ const pend=mem.filter(m=>m.status==="pending"&&m.space==="albums"),mine=pend.filter(m=>m.author===me.id);
+ shell(`<div class="hero"><small>Bonjour ${esc(me.name)} 👋</small><h1>🏡 Notre Héritage</h1></div>
  ${isAdmin()&&pend.length?`<div class="card"><h2>📥 À valider (${pend.length})</h2>${pend.map(cardHtml).join("")}</div>`:""}
- ${Object.entries(ALB).map(([k,a])=>{const n=P.filter(m=>m.albums.includes(k)).length;return `<button class="card big" onclick="album('${k}')"><span class="e">${a.e}</span><span><b>${a.n}</b><span class="s">${a.d} · ${n} souvenir${n>1?"s":""}</span></span></button>`}).join("")}
+ ${["romeo","angelo","duo"].map(spCard).join("")}
  ${!isAdmin()&&mine.length?`<div class="card"><h2>⏳ Mes propositions en attente</h2>${mine.map(cardHtml).join("")}</div>`:""}
- <div class="card"><h2>📅 ${lab}</h2>${j?cardHtml(j):`<p class="note">Aucun souvenir publié pour l’instant.</p>`}</div>
- <div class="card"><h2>🔎 Recherche</h2><input placeholder="Mot, lieu, mot-clé…" oninput="search(this.value)"><div id="res"></div></div>
- ${isAdmin()?`<div class="card"><h2>💾 Sauvegarde</h2><p class="note">Exporte les textes et informations (JSON). L’export des photos et vocaux et la sauvegarde automatique indépendante arrivent à l’étape suivante.</p><button class="btn sm" onclick="exp()">Exporter les données</button></div>`:""}`+fab()}
-function search(v){v=v.toLowerCase().trim();const r=$("#res");if(!v){r.innerHTML="";return}
- const f=pub().filter(m=>[m.title,m.body,m.place,(m.tags||[]).join(" ")].join(" ").toLowerCase().includes(v));r.innerHTML=f.length?f.map(cardHtml).join(""):`<p class="note">Aucun résultat.</p>`}
-function album(k){const a=ALB[k],l=pub().filter(m=>m.albums.includes(k));let y="";
- app.innerHTML=bar(1)+`<div class="hero"><h1>${a.e} ${a.n}</h1><p class="note">${a.d}</p></div>`+(l.length?l.map(m=>{const Y=m.happened_on.slice(0,4),h=Y!==y?`<h2 class="year">${Y}</h2>`:"";y=Y;return h+cardHtml(m)}).join(""):`<div class="card"><p>Cet album est vide.</p></div>`)+fab()}
+ <div class="card"><h2>📅 ${lab}</h2>${j?cardHtml(j):`<p class="note">Aucun souvenir publié pour l’instant.</p>`}</div>`,'{space:"albums"}')}
+function souv(q){cur=()=>souv(q);tab="souv";const l=albumsList().filter(m=>!q||[m.title,m.body,m.place,(m.tags||[]).join(" ")].join(" ").toLowerCase().includes(q.toLowerCase()));
+ shell(`<h1>📸 Souvenirs</h1><div class="card"><input id="q" placeholder="🔎 Mot, lieu, mot-clé…" value="${esc(q)}" onchange="souv(this.value)"><button class="btn sm" onclick="souv($('#q').value)">Rechercher</button></div>${filters(2021)}${timeline(l)}`,'{space:"albums"}')}
+function caps(){cur=caps;tab="caps";shell(`<h1>💌 Capsules</h1><div class="card"><h2>Pas encore développé</h2><p>Les messages du futur (lettres, vocaux et vidéos à ouvrir à une date ou lors d’un événement) ne sont <b>pas encore actifs</b>. La structure sera ajoutée dans une phase ultérieure.</p></div>`)}
 
-async function approve(id){const{error}=await sb.from("memories").update({status:"published"}).eq("id",id);if(error)alert(error.message);await load();home()}
-async function rm(id){if(!confirm("Supprimer définitivement ce souvenir ?"))return;const m=mem.find(x=>x.id===id);
- if(m.media.length)await sb.storage.from("media").remove(m.media.map(x=>x.path));
- const{error}=await sb.from("memories").delete().eq("id",id);if(error)alert(error.message);await load();home()}
+/* ---------- espaces enfants ---------- */
+function spaceView(k,keep){if(!keep)F={y:"",t:"all"};cur=()=>spaceView(k,1);const s=SP[k]||{name:ALB[k].n},l=albumsList().filter(m=>m.albums.includes(k)),by=s.birth_date?+s.birth_date.slice(0,4):2021;
+ shell(`<div class="row"><button class="btn alt sm" onclick="home()">← Accueil</button>${isAdmin()?`<button class="btn alt sm" onclick="spaceEdit('${k}')">✏️ Modifier</button>`:""}</div>
+ <div class="cover" ${bg(s.cover_path)}></div><div class="av" ${bg(s.avatar_path)}>${U[s.avatar_path]?"":ALB[k].e}</div>
+ <div class="hero"><h1>${esc(s.name)}</h1>${s.birth_date?`<p class="note">Né${k==="duo"?"s":""} le ${fmt(s.birth_date)} · ${age(s.birth_date)}</p>`:""}${s.description?`<p>${esc(s.description)}</p>`:""}</div>${filters(by)}${timeline(l)}`,`{space:"albums",album:"${k}"}`)}
+function spaceEdit(k){const s=SP[k]||{};shell(`${back()}<h1>✏️ ${esc(s.name)}</h1><div class="card"><label>Description</label><textarea id="ds" rows="3">${esc(s.description)}</textarea>
+ <label>Photo de couverture</label><input id="cv" type="file" accept="image/*"><label>Photo de profil</label><input id="pf" type="file" accept="image/*">
+ <button class="btn" id="sv" style="width:100%">Enregistrer</button><p class="err" id="er"></p></div>`);
+ $("#sv").onclick=async()=>{$("#sv").disabled=true;try{const u={description:$("#ds").value.trim()};if($("#cv").files[0])u.cover_path=await up($("#cv").files[0],"covers");if($("#pf").files[0])u.avatar_path=await up($("#pf").files[0],"covers");
+  const r=await sb.from("spaces").update(u).eq("slug",k);if(r.error)throw r.error;await load();spaceView(k)}catch(e){$("#er").textContent="Échec : "+e.message;$("#sv").disabled=false}}}
 
+/* ---------- famille ---------- */
+function fam(){cur=fam;tab="fam";const b=(f,e,t,d)=>`<button class="card sp" onclick="${f}" style="padding:14px"><span style="font-size:1.8rem">${e}</span><span><b>${t}</b><span class="s">${d}</span></span></button>`;
+ shell(`<h1>🌳 Famille</h1>`+(isAdmin()?b("journal('fabio','👨 Fabio — L’histoire de papa')","👨","Fabio","L’histoire de papa")+b("journal('daphne','👩 Daphné — L’histoire de maman')","👩","Daphné","L’histoire de maman")+b("journal('couple','❤️ Notre histoire')","❤️","Notre histoire","Fabio & Daphné, points de vue séparés")+b("gpList()","👴👵","Grands-parents","Profils, souvenirs et témoignages")
+ :b("journal('personal','📖 Mon espace')","📖","Mon espace","Privé : vous seul(e) et Fabio et Daphné")+b("interview()","🎙️","L’interview de ma vie","Répondez à votre rythme"))+
+ `<div class="card"><p class="note">Arbre généalogique, musée familial et origines : pas encore développés.</p></div>`)}
+function journal(sp,title){cur=()=>journal(sp,title);const l=mem.filter(m=>m.space===sp&&(sp!=="personal"||m.author===me.id));
+ shell(`${back("Famille","fam()")}<h1>${title}</h1><p class="note">${sp==="personal"?"🔒 Visible par vous et par Fabio et Daphné uniquement.":"🔒 Visible par Fabio et Daphné uniquement."}</p>
+ ${sp==="personal"?`<button class="btn gold mic" onclick="addForm({space:'personal',voice:1})">🎙️ Raconter un souvenir</button>`:""}${l.length?l.map(cardHtml).join(""):`<div class="card"><p class="note">Rien pour l’instant.</p></div>`}`,`{space:"${sp}"}`)}
+function gpList(){cur=gpList;const l=PR.filter(p=>p.role==="grandparent");shell(`${back("Famille","fam()")}<h1>👴👵 Grands-parents</h1>${l.length?l.map(p=>`<button class="card sp" onclick="gpView('${p.id}')" style="padding:14px"><span class="th" ${bg(p.avatar_path)} style="width:56px;height:56px;border-radius:50%">${U[p.avatar_path]?"":"👤"}</span><span><b>${esc(p.name)}${p.nickname?" « "+esc(p.nickname)+" »":""}</b><span class="s">${esc(p.relation)||"Lien à renseigner"}</span></span></button>`).join(""):`<div class="card"><p>Aucun grand-parent inscrit. Invitez-les depuis ⚙️ Menu, Gérer les accès.</p></div>`}`)}
+function gpView(id){const p=PR.find(x=>x.id===id);cur=()=>gpView(id);const ms=mem.filter(m=>m.space==="personal"&&m.author===id),an=AN.filter(a=>a.user_id===id);
+ shell(`${back("Grands-parents","gpList()")}<div class="cover" ${bg(p.cover_path)}></div><div class="av" ${bg(p.avatar_path)}>${U[p.avatar_path]?"":"👤"}</div><div class="hero"><h1>${esc(p.name)}</h1><p class="note">${esc(p.relation)}${p.birth_date?" · né(e) le "+fmt(p.birth_date):""}${p.birth_place?" à "+esc(p.birth_place):""}</p>${p.bio?`<p>${esc(p.bio)}</p>`:""}</div>
+ <button class="btn alt sm" onclick="profForm('${id}')">✏️ Modifier le profil</button><h2>Souvenirs (${ms.length})</h2>${ms.map(cardHtml).join("")}<h2>Interview (${an.length})</h2>${an.map(a=>ansHtml(a)).join("")||`<p class="note">Aucune réponse.</p>`}`)}
+function ansHtml(a){const q=Q.find(x=>x.id===a.question_id);return `<div class="card"><b>${esc(q&&q.question)}</b> <span class="tag">${a.status==="done"?"✅ terminé":"✏️ brouillon"}</span>${a.body?`<p>${esc(a.body).replace(/\n/g,"<br>")}</p>`:""}${a.media_path&&U[a.media_path]?`<audio controls src="${U[a.media_path]}" style="width:100%"></audio>`:""}</div>`}
+function profForm(id){const p=PR.find(x=>x.id===id),f=(i,l,v,t)=>`<label>${l}</label><input id="${i}" ${t?`type="${t}"`:""} value="${esc(v)}">`;
+ shell(`${back()}<h1>✏️ Profil</h1><div class="card">${f("pn","Prénom et nom",p.name)}${f("pk","Surnom familial",p.nickname)}${f("pb","Date de naissance",p.birth_date,"date")}${f("pl","Lieu de naissance",p.birth_place)}${f("pr","Lien avec Romeo et Angelo (ex. grand-mère maternelle)",p.relation)}
+ <label>Présentation</label><textarea id="bi" rows="3">${esc(p.bio)}</textarea><label>Photo de profil</label><input id="pf" type="file" accept="image/*"><label>Photo de couverture</label><input id="cv" type="file" accept="image/*">
+ <button class="btn" id="sv" style="width:100%">Enregistrer</button><p class="err" id="er"></p></div>`);
+ $("#sv").onclick=async()=>{$("#sv").disabled=true;try{const u={name:$("#pn").value.trim()||p.name,nickname:$("#pk").value.trim(),birth_date:$("#pb").value||null,birth_place:$("#pl").value.trim(),relation:$("#pr").value.trim(),bio:$("#bi").value.trim()};
+  if($("#pf").files[0])u.avatar_path=await up($("#pf").files[0],"covers");if($("#cv").files[0])u.cover_path=await up($("#cv").files[0],"covers");
+  const r=await sb.from("profiles").update(u).eq("id",id);if(r.error)throw r.error;await load();gpView(id)}catch(e){$("#er").textContent="Échec : "+e.message;$("#sv").disabled=false}}}
+
+/* ---------- interview ---------- */
+function interview(){cur=interview;const mine=AN.filter(a=>a.user_id===me.id),done=mine.filter(a=>a.status==="done").length;
+ shell(`${back("Famille","fam()")}<h1>🎙️ L’interview de ma vie</h1><p class="note">${done} réponse${done>1?"s":""} terminée${done>1?"s":""} sur ${Q.length}. Vous seul(e) voyez vos réponses (et Fabio et Daphné).</p>
+ ${Q.map(q=>{const a=mine.find(x=>x.question_id===q.id);return `<button class="card sp" onclick="answer(${q.id})" style="padding:14px;min-height:0"><span style="font-size:1.4rem">${a?(a.status==="done"?"✅":"✏️"):"⭕"}</span><span>${esc(q.question)}</span></button>`}).join("")}`)}
+function answer(qid){const q=Q.find(x=>x.id===qid),a=AN.find(x=>x.question_id===qid&&x.user_id===me.id)||{};audio=null;cur=interview;
+ shell(`${back()}<h2>${esc(q.question)}</h2><div class="card"><label>Votre réponse écrite</label><textarea id="bd" rows="6">${esc(a.body)}</textarea>
+ <label>Ou racontez-la à voix haute</label>${a.media_path&&U[a.media_path]?`<audio controls src="${U[a.media_path]}" style="width:100%"></audio>`:""}<button class="btn gold mic" id="rb">🎙️ ${a.media_path?"Refaire l’enregistrement":"Enregistrer ma voix"}</button><p class="note" id="rs"></p>
+ <div class="row"><button class="btn alt half" id="s1">💾 Brouillon</button><button class="btn half" id="s2">✅ Terminé</button></div><p class="err" id="er"></p></div>`);
+ mic("rb","rs");const save=async st=>{$("#s1").disabled=$("#s2").disabled=true;try{let mp=a.media_path||null;if(audio){mp=`${me.id}/interview/${crypto.randomUUID()}.${ext(audio)}`;const u=await sb.storage.from("media").upload(mp,audio,{contentType:audio.type});if(u.error)throw u.error}
+  const r=await sb.from("interview_answers").upsert({question_id:qid,user_id:me.id,kind:audio||a.media_path?"audio":"text",body:$("#bd").value.trim(),media_path:mp,status:st,updated_at:new Date().toISOString()},{onConflict:"question_id,user_id"});if(r.error)throw r.error;await load();interview()}
+  catch(e){$("#er").textContent="Échec : "+e.message;$("#s1").disabled=$("#s2").disabled=false}};$("#s1").onclick=()=>save("draft");$("#s2").onclick=()=>save("done")}
+
+/* ---------- ajout ---------- */
+const ext=b=>b.type.includes("mp4")?"m4a":b.type.includes("ogg")?"ogg":"webm";
+function mic(bid,sid){$("#"+bid).onclick=async()=>{if(rec&&rec.state==="recording"){rec.stop();return}
+ try{const st=await navigator.mediaDevices.getUserMedia({audio:true}),ch=[];rec=new MediaRecorder(st);rec.ondataavailable=e=>ch.push(e.data);
+  rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());audio=new Blob(ch,{type:rec.mimeType||"audio/mp4"});$("#"+bid).textContent="🎙️ Refaire";$("#"+sid).textContent="✅ Vocal prêt ("+Math.round(audio.size/1024)+" Ko)"};
+  rec.start();$("#"+bid).textContent="⏹️ Arrêter";$("#"+sid).textContent="Enregistrement…"}catch(e){$("#"+sid).textContent="Micro indisponible ou refusé (autorisez-le dans les réglages du navigateur)."}}}
 async function compress(f){const img=await createImageBitmap(f),k=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=img.width*k;c.height=img.height*k;c.getContext("2d").drawImage(img,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",.82))}
-let rec=null,audio=null;
-function addForm(){audio=null;const today=new Date().toISOString().slice(0,10);
- app.innerHTML=bar(1)+`<h1>＋ Nouveau souvenir</h1><div class="card">
- <label>Photos (plusieurs possibles, compressées automatiquement)</label><input id="ph" type="file" accept="image/*" multiple>
- <label>Message vocal</label><div class="row" style="margin-bottom:12px"><button class="btn alt sm" id="rb">🎙️ Enregistrer</button><span class="note" id="rs"></span></div>
+async function up(f,folder){const b=await compress(f),p=`${me.id}/${folder}/${crypto.randomUUID()}.jpg`,r=await sb.storage.from("media").upload(p,b,{contentType:"image/jpeg"});if(r.error)throw r.error;return p}
+function addForm(o){o=o||{space:"albums"};const sp=o.space||"albums",adm=isAdmin(),today=new Date().toISOString().slice(0,10);audio=null;
+ shell(`${back()}<h1>＋ Nouveau souvenir</h1><div class="card">
+ ${o.voice?`<button class="btn gold mic" id="rb">🎙️ Enregistrer</button><p class="note" id="rs"></p>`:""}
+ <label>Photos, vidéos ou documents PDF (plusieurs possibles, 45 Mo maximum par fichier)</label><input id="ph" type="file" accept="image/*,video/*,application/pdf" multiple>
+ ${o.voice?"":`<label>Message vocal</label><div class="row" style="margin-bottom:10px"><button class="btn alt sm" id="rb">🎙️ Enregistrer</button><span class="note" id="rs"></span></div>`}
  <label>Titre</label><input id="ti"><label>Histoire / description</label><textarea id="tx" rows="4"></textarea>
- <label>Albums de destination</label><div class="chk"><label><input type="checkbox" value="romeo"> 💙 Romeo</label><label><input type="checkbox" value="angelo"> 🧸 Angelo</label><label><input type="checkbox" value="duo"> 👬 Les deux frères</label></div>
- <label style="margin-top:12px">Date</label><input id="dt" type="date" value="${today}"><label>Lieu (facultatif)</label><input id="pl"><label>Mots-clés (séparés par des virgules)</label><input id="tg">
- <p class="note">${isAdmin()?"🔒 Visible par la famille invitée uniquement. Publié immédiatement.":"🔒 Votre souvenir sera envoyé à Fabio et Daphné pour validation."}</p>
- <button class="btn" id="sv" style="width:100%">Enregistrer</button><p class="err" id="er"></p></div>`;
- $("#rb").onclick=async()=>{if(rec&&rec.state==="recording"){rec.stop();return}
-  try{const st=await navigator.mediaDevices.getUserMedia({audio:true}),ch=[];rec=new MediaRecorder(st);rec.ondataavailable=e=>ch.push(e.data);
-   rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());audio=new Blob(ch,{type:rec.mimeType||"audio/mp4"});$("#rb").textContent="🎙️ Refaire";$("#rs").textContent="✅ Vocal prêt"};
-   rec.start();$("#rb").textContent="⏹️ Arrêter";$("#rs").textContent="Enregistrement…"}catch(e){$("#rs").textContent="Micro indisponible ou refusé."}};
+ ${sp==="albums"?`<label>Albums de destination</label><div class="chk"><label><input type="checkbox" value="romeo" ${o.album==="romeo"?"checked":""}> 💙 Romeo</label><label><input type="checkbox" value="angelo" ${o.album==="angelo"?"checked":""}> 🧸 Angelo</label><label><input type="checkbox" value="duo" ${o.album==="duo"?"checked":""}> 👬 Les deux frères</label></div>`:""}
+ <label style="margin-top:10px">Date</label><input id="dt" type="date" value="${today}"><label>Lieu (facultatif)</label><input id="pl"><label>Mots-clés (séparés par des virgules)</label><input id="tg">
+ ${adm&&sp==="albums"?`<label>Confidentialité</label><select id="vi"><option value="private">🔒 Privé (parents uniquement)</option><option value="family">👪 Visible par la famille invitée</option></select>`:`<p class="note">🔒 Privé. ${!adm&&sp==="albums"?"Votre souvenir sera envoyé à Fabio et Daphné pour validation.":""}</p>`}
+ <button class="btn" id="sv" style="width:100%">Enregistrer</button><p class="err" id="er"></p></div>`);mic("rb","rs");
  $("#sv").onclick=async()=>{const al=[...document.querySelectorAll(".chk input:checked")].map(i=>i.value),files=[...$("#ph").files];
-  if(!al.length)return $("#er").textContent="Choisissez au moins un album.";
+  if(sp==="albums"&&!al.length)return $("#er").textContent="Choisissez au moins un album.";
   if(!files.length&&!audio&&!$("#tx").value.trim()&&!$("#ti").value.trim())return $("#er").textContent="Ajoutez une photo, un vocal ou un texte.";
+  if(files.some(f=>f.size>45e6))return $("#er").textContent="Un fichier dépasse 45 Mo (limite gratuite).";
   $("#sv").disabled=true;$("#sv").textContent="Enregistrement…";let id=null;
-  try{const{data,error}=await sb.from("memories").insert({title:$("#ti").value.trim(),body:$("#tx").value.trim(),happened_on:$("#dt").value||today,place:$("#pl").value.trim(),tags:$("#tg").value.split(",").map(s=>s.trim()).filter(Boolean),albums:al,status:isAdmin()?"published":"pending"}).select("id").single();
+  try{const{data,error}=await sb.from("memories").insert({title:$("#ti").value.trim(),body:$("#tx").value.trim(),happened_on:$("#dt").value||today,place:$("#pl").value.trim(),tags:$("#tg").value.split(",").map(s=>s.trim()).filter(Boolean),albums:sp==="albums"?al:[],space:sp,visibility:adm&&$("#vi")?$("#vi").value:"private",status:adm||sp!=="albums"?"published":"pending"}).select("id").single();
    if(error)throw error;id=data.id;
-   const items=[...files.map(f=>({kind:"photo",ext:"jpg",mime:"image/jpeg",f})),...(audio?[{kind:"audio",ext:audio.type.includes("mp4")?"m4a":"webm",mime:audio.type,f:audio}]:[])];
-   for(const it of items){const blob=it.kind==="photo"?await compress(it.f):it.f,path=`${me.id}/${id}/${crypto.randomUUID()}.${it.ext}`;
-    const u=await sb.storage.from("media").upload(path,blob,{contentType:it.mime});if(u.error)throw u.error;
-    const r=await sb.from("media").insert({memory_id:id,kind:it.kind,path,mime:it.mime,bytes:blob.size});if(r.error)throw r.error}
-   await load();isAdmin()?album(al[0]):home()}
-  catch(e){if(id)await sb.from("memories").delete().eq("id",id);$("#er").textContent="Échec : "+e.message;$("#sv").disabled=false;$("#sv").textContent="Enregistrer"}}}
+   const items=[...files.map(f=>({f,kind:f.type.startsWith("image/")?"photo":f.type.startsWith("video/")?"video":"document"})),...(audio?[{f:audio,kind:"audio"}]:[])];
+   for(const it of items){let blob=it.f,e=it.kind==="photo"?"jpg":it.kind==="audio"?ext(audio):(it.f.name.split(".").pop()||"bin").toLowerCase().replace(/[^a-z0-9]/g,"");
+    if(it.kind==="photo")blob=await compress(it.f);const mime=it.kind==="photo"?"image/jpeg":(it.f.type||"application/octet-stream"),path=`${me.id}/${id}/${crypto.randomUUID()}.${e}`;
+    const u=await sb.storage.from("media").upload(path,blob,{contentType:mime});if(u.error)throw u.error;
+    const r=await sb.from("media").insert({memory_id:id,kind:it.kind,path,mime,bytes:blob.size});if(r.error)throw r.error}
+   await load();cur()}catch(e){if(id)await sb.from("memories").delete().eq("id",id);$("#er").textContent="Échec : "+e.message;$("#sv").disabled=false;$("#sv").textContent="Enregistrer"}}}
 
+async function approve(id){const{error}=await sb.from("memories").update({status:"published"}).eq("id",id);if(error)alert(error.message);await load();cur()}
+async function rm(id){if(!confirm("Supprimer définitivement ?"))return;const m=mem.find(x=>x.id===id);if(m.media.length)await sb.storage.from("media").remove(m.media.map(x=>x.path));
+ const{error}=await sb.from("memories").delete().eq("id",id);if(error)alert(error.message);await load();cur()}
+
+/* ---------- menu & administration ---------- */
+function menu(){cur=menu;tab="menu";shell(`<h1>⚙️ Menu</h1><div class="card"><b>${esc(me.name)}</b><div class="note">${me.role==="admin"?"Administrateur":me.role==="grandparent"?"Grand-parent":"Famille"}</div></div>
+ ${isAdmin()?`<button class="card sp" style="padding:14px" onclick="access()"><span style="font-size:1.6rem">🔑</span><span><b>Gérer les accès</b><span class="s">Invitations et profils</span></span></button><button class="card sp" style="padding:14px" onclick="exp()"><span style="font-size:1.6rem">💾</span><span><b>Exporter les données</b><span class="s">Textes et informations (JSON)</span></span></button>`:""}
+ <button class="btn alt" onclick="logout()" style="width:100%">Se déconnecter</button>
+ <div class="card"><p class="note">Pas encore développés : notifications, commentaires et réactions, capsules temporelles, arbre généalogique, origines, livres PDF, export des photos et sauvegarde indépendante automatique.</p></div>`)}
+async function access(){cur=access;const{data:inv,error}=await sb.from("invites").select("*").order("email");
+ shell(`${back("Menu","menu()")}<h1>🔑 Accès</h1><div class="card"><h2>Inviter quelqu’un</h2><label>Adresse e-mail exacte</label><input id="ie" type="email"><label>Prénom</label><input id="in2"><label>Rôle</label>
+ <select id="ir"><option value="grandparent">👴👵 Grand-parent (espace privé)</option><option value="family">👪 Membre de la famille</option><option value="admin">👑 Administrateur</option></select><button class="btn" id="ia" style="width:100%">Inviter</button><p class="err" id="er">${error?esc(error.message)+" (lancez le morceau SQL 4)":""}</p>
+ <p class="note">Envoyez ensuite à la personne l’adresse du site : elle touche « Créer mon compte » avec cette adresse.</p></div>
+ <div class="card"><h2>Invités</h2>${(inv||[]).map(i=>`<div class="row" style="justify-content:space-between;margin:6px 0"><span>${esc(i.name)} <span class="tag">${i.role}</span><div class="note">${esc(i.email)}${PR.find(p=>p.name===i.name)?" · inscrit(e)":" · pas encore inscrit(e)"}</div></span><button class="btn alt sm" onclick="delInv('${esc(i.email)}')">Retirer</button></div>`).join("")}
+ <p class="note">« Retirer » empêche une nouvelle inscription. Pour supprimer un compte existant, utilisez Supabase, Authentication, Users.</p></div>`);
+ $("#ia").onclick=async()=>{const e=$("#ie").value.trim().toLowerCase(),n=$("#in2").value.trim();if(!e||!n)return $("#er").textContent="Adresse et prénom obligatoires.";
+  const r=await sb.from("invites").insert({email:e,name:n,role:$("#ir").value});if(r.error)$("#er").textContent=r.error.message;else access()}}
+async function delInv(e){if(!confirm("Retirer cette invitation ?"))return;await sb.from("invites").delete().eq("email",e);access()}
 function exp(){const out=mem.map(({media,profiles,...m})=>({...m,author_name:profiles&&profiles.name,media:media.map(x=>({kind:x.kind,path:x.path,mime:x.mime,bytes:x.bytes}))}));
- const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({app:"notre-heritage",exported:new Date().toISOString(),memories:out},null,1)],{type:"application/json"}));a.download="notre-heritage-donnees-"+new Date().toISOString().slice(0,10)+".json";a.click()}
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({app:"notre-heritage",exported:new Date().toISOString(),spaces:SP,profiles:PR,interview_answers:AN,memories:out},null,1)],{type:"application/json"}));a.download="notre-heritage-donnees-"+new Date().toISOString().slice(0,10)+".json";a.click()}
 boot();
 </script></body></html>
