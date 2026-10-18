@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Notre Héritage</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--bg:#f6efe0;--card:#fffaf0;--ink:#3b3426;--sage:#7d8f69;--olive:#5b6b3a;--gold:#b8923a;--line:#e3d7bc;--sh:0 4px 14px rgba(70,55,20,.12);color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root{--bg:#26241c;--card:#33301f;--ink:#f1e8d2;--sage:#9bad84;--olive:#a9bb7c;--gold:#d9b35e;--line:#4a4630;--sh:0 4px 14px rgba(0,0,0,.4);color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.45 Georgia,"Times New Roman",serif}
+h1,h2{font-weight:normal;margin:.3em 0}h1{font-size:1.9rem}h2{font-size:1.4rem;color:var(--olive)}
+main{max-width:720px;margin:0 auto;padding:16px 16px 110px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh);padding:16px;margin:12px 0}
+.hero{text-align:center;padding:22px 10px 6px}.hero small{color:var(--gold);letter-spacing:.15em;text-transform:uppercase;font-size:.7rem}
+.big{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;min-height:84px}
+.big .e{font-size:2.2rem}.big b{display:block;font-size:1.3rem}.big .s{color:var(--sage);font-size:.9rem}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{background:var(--olive);color:#fff;border:0;border-radius:16px;padding:14px 20px;min-height:52px;cursor:pointer;font-size:1.05rem}
+.btn.alt{background:transparent;color:var(--olive);border:2px solid var(--sage)}.btn.sm{min-height:40px;padding:8px 14px;font-size:.9rem}
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));box-shadow:var(--sh);background:var(--gold);color:#2b2208;border:0;border-radius:30px;padding:16px 26px;font-size:1.1rem;cursor:pointer;z-index:5}
+input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin:6px 0 12px}
+label{font-size:.85rem;color:var(--sage);display:block}.chk label{display:inline-flex;gap:6px;align-items:center;font-size:1rem;color:var(--ink);margin-right:14px}.chk input{width:auto;margin:0}
+.m img{width:100%;max-height:360px;object-fit:cover;border-radius:14px;display:block;margin:8px 0}
+.tag{display:inline-block;background:var(--line);border-radius:10px;padding:2px 9px;font-size:.78rem;margin:2px 3px 0 0}
+.year{color:var(--gold);border-bottom:1px solid var(--line);margin:22px 0 8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.note{font-size:.85rem;color:var(--sage)}.err{color:#b3402a;font-size:.9rem}
+</style></head><body><main id="app"><p class="note">Chargement…</p></main>
+<script>
+const sb=supabase.createClient("https://uaoekuspuxcvhugdgetu.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhb2VrdXNwdXhjdmh1Z2RnZXR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzMjU0NjAsImV4cCI6MjEwNzkwMTQ2MH0.O8uYa8KRfK0c2HtekQwC_1iXCEuwjzhmmP-za4XPdFc");
+const $=s=>document.querySelector(s),app=$("#app");
+const ALB={romeo:{n:"Romeo",e:"💙",d:"Son espace personnel"},angelo:{n:"Angelo",e:"🧸",d:"Son espace personnel"},duo:{n:"Romeo & Angelo",e:"👬",d:"Aventures, vacances, complicité"}};
+let me=null,mem=[],U={};
+const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=d=>new Date(d+"T12:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+const isAdmin=()=>me&&me.role==="admin";
+
+async function boot(){const{data:{session}}=await sb.auth.getSession();if(!session)return loginView();
+ const{data,error}=await sb.from("profiles").select("*").eq("id",session.user.id).single();
+ if(error||!data){await sb.auth.signOut();return loginView("Compte non autorisé.")}
+ me=data;await load();home()}
+async function load(){const{data,error}=await sb.from("memories").select("*, media(*), profiles(name)").order("happened_on",{ascending:false});
+ if(error){app.innerHTML=`<p class="err">Erreur de chargement : ${esc(error.message)}</p>`;return}
+ mem=data;const paths=mem.flatMap(m=>m.media.map(x=>x.path));U={};
+ if(paths.length){const{data:s}=await sb.storage.from("media").createSignedUrls(paths,3600);(s||[]).forEach(x=>{if(x.signedUrl)U[x.path]=x.signedUrl})}}
+
+function loginView(msg){app.innerHTML=`<div class="hero"><small>Patrimoine familial privé</small><h1>🏡 Notre Héritage</h1></div><div class="card">
+ <label>Adresse e-mail</label><input id="em" type="email" autocomplete="email"><label>Mot de passe (8 caractères minimum)</label><input id="pw" type="password" autocomplete="current-password">
+ <div class="row"><button class="btn" id="in">Se connecter</button><button class="btn alt" id="up">Créer mon compte</button></div>
+ <p class="err" id="msg">${esc(msg||"")}</p><p class="note">Seules les personnes invitées par Fabio et Daphné peuvent créer un compte, avec l’adresse e-mail invitée.</p></div>`;
+ const cred=()=>({email:$("#em").value.trim(),password:$("#pw").value});
+ $("#in").onclick=async()=>{const{error}=await sb.auth.signInWithPassword(cred());if(error)$("#msg").textContent="Connexion impossible : e-mail ou mot de passe incorrect.";else boot()};
+ $("#up").onclick=async()=>{const c=cred();if(c.password.length<8){$("#msg").textContent="Mot de passe : 8 caractères minimum.";return}
+  const{data,error}=await sb.auth.signUp(c);
+  if(error){$("#msg").textContent=/database error|invitation/i.test(error.message)?"Cette adresse n’a pas été invitée.":error.message;return}
+  if(!data.session){$("#msg").textContent="Compte créé. Confirmez votre e-mail puis connectez-vous.";return}boot()}}
+async function logout(){await sb.auth.signOut();me=null;loginView()}
+
+function bar(back){return `<div class="row" style="justify-content:space-between"><span>${back?`<button class="btn alt sm" onclick="home()">← Accueil</button>`:`<span class="note">Bonjour ${esc(me.name)} 👋</span>`}</span><button class="btn alt sm" onclick="logout()">Quitter</button></div>`}
+const fab=()=>`<button class="fab" onclick="addForm()">＋ Ajouter un souvenir</button>`;
+const pub=()=>mem.filter(m=>m.status==="published");
+function cardHtml(m){const med=m.media.map(x=>{const u=U[x.path];if(!u)return"";return x.kind==="photo"?`<img src="${u}" alt="" loading="lazy">`:x.kind==="audio"?`<audio controls src="${u}" style="width:100%"></audio>`:""}).join("");
+ const mine=m.author===me.id,pend=m.status==="pending";
+ return `<div class="card m"><b>${esc(m.title)||"Sans titre"}</b>${pend?` <span class="tag">⏳ en attente</span>`:""}<div class="note">${fmt(m.happened_on)}${m.place?" · 📍"+esc(m.place):""} · par ${esc(m.profiles&&m.profiles.name)}</div>${med}${m.body?`<p>${esc(m.body).replace(/\n/g,"<br>")}</p>`:""}
+ <div>${m.albums.map(a=>`<span class="tag">${ALB[a].e} ${ALB[a].n}</span>`).join("")}${(m.tags||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>
+ <div class="row" style="margin-top:10px">${isAdmin()&&pend?`<button class="btn sm" onclick="approve('${m.id}')">✅ Publier</button>`:""}${isAdmin()||(mine&&pend)?`<button class="btn alt sm" onclick="rm('${m.id}')">${isAdmin()&&pend?"Refuser":"Supprimer"}</button>`:""}</div></div>`}
+
+function home(){const t=new Date(),md=String(t.getMonth()+1).padStart(2,"0")+"-"+String(t.getDate()).padStart(2,"0"),P=pub();
+ let j=P.find(m=>m.happened_on.slice(5)===md&&+m.happened_on.slice(0,4)<t.getFullYear()),lab="Ce jour-là";
+ if(!j&&P.length){j=P[Math.floor(Math.random()*P.length)];lab="Un souvenir au hasard"}
+ const pend=mem.filter(m=>m.status==="pending"),mine=pend.filter(m=>m.author===me.id);
+ app.innerHTML=bar(0)+`<div class="hero"><small>Patrimoine familial privé</small><h1>🏡 Notre Héritage</h1></div>
+ ${isAdmin()&&pend.length?`<div class="card"><h2>📥 À valider (${pend.length})</h2>${pend.map(cardHtml).join("")}</div>`:""}
+ ${Object.entries(ALB).map(([k,a])=>{const n=P.filter(m=>m.albums.includes(k)).length;return `<button class="card big" onclick="album('${k}')"><span class="e">${a.e}</span><span><b>${a.n}</b><span class="s">${a.d} · ${n} souvenir${n>1?"s":""}</span></span></button>`}).join("")}
+ ${!isAdmin()&&mine.length?`<div class="card"><h2>⏳ Mes propositions en attente</h2>${mine.map(cardHtml).join("")}</div>`:""}
+ <div class="card"><h2>📅 ${lab}</h2>${j?cardHtml(j):`<p class="note">Aucun souvenir publié pour l’instant.</p>`}</div>
+ <div class="card"><h2>🔎 Recherche</h2><input placeholder="Mot, lieu, mot-clé…" oninput="search(this.value)"><div id="res"></div></div>
+ ${isAdmin()?`<div class="card"><h2>💾 Sauvegarde</h2><p class="note">Exporte les textes et informations (JSON). L’export des photos et vocaux et la sauvegarde automatique indépendante arrivent à l’étape suivante.</p><button class="btn sm" onclick="exp()">Exporter les données</button></div>`:""}`+fab()}
+function search(v){v=v.toLowerCase().trim();const r=$("#res");if(!v){r.innerHTML="";return}
+ const f=pub().filter(m=>[m.title,m.body,m.place,(m.tags||[]).join(" ")].join(" ").toLowerCase().includes(v));r.innerHTML=f.length?f.map(cardHtml).join(""):`<p class="note">Aucun résultat.</p>`}
+function album(k){const a=ALB[k],l=pub().filter(m=>m.albums.includes(k));let y="";
+ app.innerHTML=bar(1)+`<div class="hero"><h1>${a.e} ${a.n}</h1><p class="note">${a.d}</p></div>`+(l.length?l.map(m=>{const Y=m.happened_on.slice(0,4),h=Y!==y?`<h2 class="year">${Y}</h2>`:"";y=Y;return h+cardHtml(m)}).join(""):`<div class="card"><p>Cet album est vide.</p></div>`)+fab()}
+
+async function approve(id){const{error}=await sb.from("memories").update({status:"published"}).eq("id",id);if(error)alert(error.message);await load();home()}
+async function rm(id){if(!confirm("Supprimer définitivement ce souvenir ?"))return;const m=mem.find(x=>x.id===id);
+ if(m.media.length)await sb.storage.from("media").remove(m.media.map(x=>x.path));
+ const{error}=await sb.from("memories").delete().eq("id",id);if(error)alert(error.message);await load();home()}
+
+async function compress(f){const img=await createImageBitmap(f),k=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=img.width*k;c.height=img.height*k;c.getContext("2d").drawImage(img,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",.82))}
+let rec=null,audio=null;
+function addForm(){audio=null;const today=new Date().toISOString().slice(0,10);
+ app.innerHTML=bar(1)+`<h1>＋ Nouveau souvenir</h1><div class="card">
+ <label>Photos (plusieurs possibles, compressées automatiquement)</label><input id="ph" type="file" accept="image/*" multiple>
+ <label>Message vocal</label><div class="row" style="margin-bottom:12px"><button class="btn alt sm" id="rb">🎙️ Enregistrer</button><span class="note" id="rs"></span></div>
+ <label>Titre</label><input id="ti"><label>Histoire / description</label><textarea id="tx" rows="4"></textarea>
+ <label>Albums de destination</label><div class="chk"><label><input type="checkbox" value="romeo"> 💙 Romeo</label><label><input type="checkbox" value="angelo"> 🧸 Angelo</label><label><input type="checkbox" value="duo"> 👬 Les deux frères</label></div>
+ <label style="margin-top:12px">Date</label><input id="dt" type="date" value="${today}"><label>Lieu (facultatif)</label><input id="pl"><label>Mots-clés (séparés par des virgules)</label><input id="tg">
+ <p class="note">${isAdmin()?"🔒 Visible par la famille invitée uniquement. Publié immédiatement.":"🔒 Votre souvenir sera envoyé à Fabio et Daphné pour validation."}</p>
+ <button class="btn" id="sv" style="width:100%">Enregistrer</button><p class="err" id="er"></p></div>`;
+ $("#rb").onclick=async()=>{if(rec&&rec.state==="recording"){rec.stop();return}
+  try{const st=await navigator.mediaDevices.getUserMedia({audio:true}),ch=[];rec=new MediaRecorder(st);rec.ondataavailable=e=>ch.push(e.data);
+   rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());audio=new Blob(ch,{type:rec.mimeType||"audio/mp4"});$("#rb").textContent="🎙️ Refaire";$("#rs").textContent="✅ Vocal prêt"};
+   rec.start();$("#rb").textContent="⏹️ Arrêter";$("#rs").textContent="Enregistrement…"}catch(e){$("#rs").textContent="Micro indisponible ou refusé."}};
+ $("#sv").onclick=async()=>{const al=[...document.querySelectorAll(".chk input:checked")].map(i=>i.value),files=[...$("#ph").files];
+  if(!al.length)return $("#er").textContent="Choisissez au moins un album.";
+  if(!files.length&&!audio&&!$("#tx").value.trim()&&!$("#ti").value.trim())return $("#er").textContent="Ajoutez une photo, un vocal ou un texte.";
+  $("#sv").disabled=true;$("#sv").textContent="Enregistrement…";let id=null;
+  try{const{data,error}=await sb.from("memories").insert({title:$("#ti").value.trim(),body:$("#tx").value.trim(),happened_on:$("#dt").value||today,place:$("#pl").value.trim(),tags:$("#tg").value.split(",").map(s=>s.trim()).filter(Boolean),albums:al,status:isAdmin()?"published":"pending"}).select("id").single();
+   if(error)throw error;id=data.id;
+   const items=[...files.map(f=>({kind:"photo",ext:"jpg",mime:"image/jpeg",f})),...(audio?[{kind:"audio",ext:audio.type.includes("mp4")?"m4a":"webm",mime:audio.type,f:audio}]:[])];
+   for(const it of items){const blob=it.kind==="photo"?await compress(it.f):it.f,path=`${me.id}/${id}/${crypto.randomUUID()}.${it.ext}`;
+    const u=await sb.storage.from("media").upload(path,blob,{contentType:it.mime});if(u.error)throw u.error;
+    const r=await sb.from("media").insert({memory_id:id,kind:it.kind,path,mime:it.mime,bytes:blob.size});if(r.error)throw r.error}
+   await load();isAdmin()?album(al[0]):home()}
+  catch(e){if(id)await sb.from("memories").delete().eq("id",id);$("#er").textContent="Échec : "+e.message;$("#sv").disabled=false;$("#sv").textContent="Enregistrer"}}}
+
+function exp(){const out=mem.map(({media,profiles,...m})=>({...m,author_name:profiles&&profiles.name,media:media.map(x=>({kind:x.kind,path:x.path,mime:x.mime,bytes:x.bytes}))}));
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({app:"notre-heritage",exported:new Date().toISOString(),memories:out},null,1)],{type:"application/json"}));a.download="notre-heritage-donnees-"+new Date().toISOString().slice(0,10)+".json";a.click()}
+boot();
+</script></body></html>
